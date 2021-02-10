@@ -1,10 +1,15 @@
 package id.husni.mokat.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import id.husni.mokat.FavoriteActivity
+import id.husni.mokat.R
 import id.husni.mokat.core.ui.MoviesAdapter
 import id.husni.mokat.core.ui.ViewModelFactory
 import id.husni.mokat.databinding.ActivityMainBinding
@@ -32,6 +37,18 @@ class MainActivity : AppCompatActivity() {
             rvAdapter.setMovies(movies)
             showProgressBar(false)
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.favorites){
+            startActivity(Intent(this,FavoriteActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showProgressBar(isShow: Boolean) {

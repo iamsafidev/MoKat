@@ -3,4 +3,6 @@
     <string name="image">image</string>
     <string name="detail">Detail</string>
     <string name="overview">Overview</string>
+    <string name="favorite">Favorite</string>
+    <string name="no_data_in_favorite">No Data In Favorite</string>
 </resources>
