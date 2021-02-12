@@ -3,6 +3,7 @@ package id.husni.mokat.core.data.source.remote
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.husni.mokat.BuildConfig
+import id.husni.mokat.core.data.source.remote.network.ApiResponse
 import id.husni.mokat.core.data.source.remote.network.ApiService
 import id.husni.mokat.core.data.source.remote.response.MovieResponse
 import id.husni.mokat.core.data.source.remote.response.MoviesItem
@@ -21,17 +22,18 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             }
     }
 
-    fun getAllMovies(): LiveData<List<MoviesItem>>{
-        val results = MutableLiveData<List<MoviesItem>>()
+    fun getAllMovies(): LiveData<ApiResponse<List<MoviesItem>>>{
+        val results = MutableLiveData<ApiResponse<List<MoviesItem>>>()
 
         val client = apiService.getAllMovies(BuildConfig.TMDB_API,"en_US")
         client.enqueue(object : Callback<MovieResponse>{
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                results.value = response.body()?.results
+                val dataArray = response.body()?.results
+                results.value = if (dataArray !=null) ApiResponse.Success(dataArray) else ApiResponse.Empty
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-
+                results.value = ApiResponse.Error(t.message.toString())
             }
         })
         return results

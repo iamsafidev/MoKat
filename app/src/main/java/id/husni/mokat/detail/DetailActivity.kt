@@ -6,6 +6,7 @@ import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import id.husni.mokat.R
+import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.network.ApiConfig
 import id.husni.mokat.core.data.source.remote.response.MoviesItem
 import id.husni.mokat.databinding.ActivityDetailBinding
@@ -25,12 +26,12 @@ class DetailActivity : AppCompatActivity() {
         }
        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val extraData = intent.getParcelableExtra<MoviesItem>(EXTRA_DATA)
+        val extraData = intent.getParcelableExtra<MoviesEntity>(EXTRA_DATA)
         showDetail(extraData)
 
     }
 
-    private fun showDetail(extraData: MoviesItem?) {
+    private fun showDetail(extraData: MoviesEntity?) {
         with(binding){
             tvTitle.text = extraData?.title
             tvRating.text = extraData?.voteAverage.toString()

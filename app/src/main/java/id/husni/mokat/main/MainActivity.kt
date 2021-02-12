@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import id.husni.mokat.FavoriteActivity
 import id.husni.mokat.R
+import id.husni.mokat.core.data.source.Resources
 import id.husni.mokat.core.ui.MoviesAdapter
 import id.husni.mokat.core.ui.ViewModelFactory
 import id.husni.mokat.databinding.ActivityMainBinding
@@ -32,10 +34,22 @@ class MainActivity : AppCompatActivity() {
         }
         val factory = ViewModelFactory.getInstance(this)
         mainViewModel = ViewModelProvider(this,factory)[MainViewModel::class.java]
-        showProgressBar(true)
-        mainViewModel.getAllMovies.observe(this,{movies->
-            rvAdapter.setMovies(movies)
-            showProgressBar(false)
+        mainViewModel.getAllMovies().observe(this,{ movies->
+            if (movies != null){
+                when(movies){
+                    is Resources.Loading<*> ->{
+                        showProgressBar(true)
+                    }
+                    is Resources.Success<*> ->{
+                        showProgressBar(false)
+                        rvAdapter.setMovies(movies.data)
+                    }
+                    is Resources.Error<*> ->{
+                        showProgressBar(false)
+                        Toast.makeText(this,"Something Wrong",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         })
     }
 
@@ -57,5 +71,10 @@ class MainActivity : AppCompatActivity() {
         }else{
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

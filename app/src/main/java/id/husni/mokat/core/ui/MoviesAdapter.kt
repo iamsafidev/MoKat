@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import id.husni.mokat.R
+import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.network.ApiConfig
 import id.husni.mokat.core.data.source.remote.response.MoviesItem
 import id.husni.mokat.databinding.ItemListBinding
@@ -14,9 +15,9 @@ import id.husni.mokat.detail.DetailActivity
 
 class MoviesAdapter: RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    private val listMovies = ArrayList<MoviesItem>()
+    private val listMovies = ArrayList<MoviesEntity>()
 
-    fun setMovies(items: List<MoviesItem>){
+    fun setMovies(items: List<MoviesEntity>?){
         if (items.isNullOrEmpty()) return
         listMovies.clear()
         listMovies.addAll(items)
@@ -34,18 +35,18 @@ class MoviesAdapter: RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     override fun getItemCount(): Int = listMovies.size
 
     class ViewHolder(private val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(moviesItem: MoviesItem) {
+        fun bind(moviesEntity: MoviesEntity) {
             with(binding){
-                tvTitle.text = moviesItem.title
-                tvRating.text = moviesItem.voteAverage.toString()
+                tvTitle.text = moviesEntity.title
+                tvRating.text = moviesEntity.voteAverage.toString()
 
                 Glide.with(itemView.context)
-                    .load(ApiConfig.POSTER_URL + moviesItem.posterPath)
+                    .load(ApiConfig.POSTER_URL + moviesEntity.posterPath)
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_broken).error(R.drawable.ic_broken))
                     .into(imgList)
                 itemView.setOnClickListener {
                     val i = Intent(itemView.context, DetailActivity::class.java)
-                    i.putExtra(DetailActivity.EXTRA_DATA, moviesItem)
+                    i.putExtra(DetailActivity.EXTRA_DATA, moviesEntity)
                     itemView.context.startActivity(i)
 
                 }
