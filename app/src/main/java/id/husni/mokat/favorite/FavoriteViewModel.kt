@@ -2,9 +2,9 @@ package id.husni.mokat.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import id.husni.mokat.core.data.source.MoviesRepository
-import id.husni.mokat.core.data.source.local.entity.MoviesEntity
+import id.husni.mokat.core.domain.model.Movies
+import id.husni.mokat.core.domain.usecase.MoviesUseCase
 
-class FavoriteViewModel(private val moviesRepository: MoviesRepository): ViewModel() {
-    fun getAllFavorite(): LiveData<List<MoviesEntity>> = moviesRepository.getFavouriteMovies()
+class FavoriteViewModel(moviesUseCase: MoviesUseCase): ViewModel() {
+    val getAllFavorite = moviesUseCase.getFavoriteMovies()
 }

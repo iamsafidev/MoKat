@@ -2,6 +2,7 @@ package id.husni.mokat.core.utils
 
 import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.response.MoviesItem
+import id.husni.mokat.core.domain.model.Movies
 
 object DataMapper {
     fun mapResponseToEntities(input: List<MoviesItem>): List<MoviesEntity>{
@@ -20,4 +21,27 @@ object DataMapper {
         }
         return moviesList
     }
+    fun mapEntitiesToDomain(input: List<MoviesEntity>): List<Movies> =
+        input.map {
+            Movies(
+                id = it.id,
+                title = it.title,
+                releaseDate = it.releaseDate,
+                voteAverage = it.voteAverage,
+                overview = it.overview,
+                backdropPath = it.backdropPath,
+                posterPath = it.posterPath
+            )
+        }
+
+    fun mapDomainToEntity(input: Movies) = MoviesEntity(
+        id = input.id,
+        title = input.title,
+        releaseDate = input.releaseDate,
+        voteAverage = input.voteAverage,
+        overview = input.overview,
+        backdropPath = input.backdropPath,
+        posterPath = input.posterPath
+    )
+
 }

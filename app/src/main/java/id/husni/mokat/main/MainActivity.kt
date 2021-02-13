@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
         val factory = ViewModelFactory.getInstance(this)
         mainViewModel = ViewModelProvider(this,factory)[MainViewModel::class.java]
-        mainViewModel.getAllMovies().observe(this,{ movies->
+        mainViewModel.getAllMovies.observe(this,{ movies->
             if (movies != null){
                 when(movies){
                     is Resources.Loading<*> ->{

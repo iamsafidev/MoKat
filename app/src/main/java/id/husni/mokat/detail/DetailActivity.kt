@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import id.husni.mokat.R
 import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.network.ApiConfig
+import id.husni.mokat.core.domain.model.Movies
 import id.husni.mokat.core.ui.ViewModelFactory
 import id.husni.mokat.databinding.ActivityDetailBinding
 
@@ -31,12 +32,12 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val factory = ViewModelFactory.getInstance(this)
         detailMoviesViewModel = ViewModelProvider(this,factory)[DetailMoviesViewModel::class.java]
-        val extraData = intent.getParcelableExtra<MoviesEntity>(EXTRA_DATA)
+        val extraData = intent.getParcelableExtra<Movies>(EXTRA_DATA)
         showDetail(extraData)
 
     }
 
-    private fun showDetail(extraData: MoviesEntity?) {
+    private fun showDetail(extraData: Movies?) {
         with(binding){
             tvTitle.text = extraData?.title
             tvRating.text = extraData?.voteAverage.toString()

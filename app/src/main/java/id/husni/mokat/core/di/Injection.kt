@@ -6,6 +6,9 @@ import id.husni.mokat.core.data.source.local.LocalDataSource
 import id.husni.mokat.core.data.source.local.room.MoviesDatabase
 import id.husni.mokat.core.data.source.remote.RemoteDataSource
 import id.husni.mokat.core.data.source.remote.network.ApiConfig
+import id.husni.mokat.core.domain.repository.IMoviesRepository
+import id.husni.mokat.core.domain.usecase.MoviesInteractor
+import id.husni.mokat.core.domain.usecase.MoviesUseCase
 import id.husni.mokat.core.utils.AppExecutors
 
 object Injection {
@@ -15,5 +18,9 @@ object Injection {
         val localDataSource = LocalDataSource.getInstance(database.moviesDao())
         val appExecutors = AppExecutors()
         return MoviesRepository.getInstance(remoteDataSource,localDataSource,appExecutors)
+    }
+    fun provideMoviesUseCase(context: Context): MoviesUseCase{
+        val repository = provideInjection(context)
+        return MoviesInteractor(repository)
     }
 }

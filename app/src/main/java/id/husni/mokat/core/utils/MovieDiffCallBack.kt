@@ -2,8 +2,9 @@ package id.husni.mokat.core.utils
 
 import androidx.recyclerview.widget.DiffUtil
 import id.husni.mokat.core.data.source.local.entity.MoviesEntity
+import id.husni.mokat.core.domain.model.Movies
 
-class MovieDiffCallBack(private val oldListMovies: List<MoviesEntity>, private val newListMovies: List<MoviesEntity>): DiffUtil.Callback() {
+class MovieDiffCallBack(private val oldListMovies: List<Movies>, private val newListMovies: List<Movies>): DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldListMovies.size
     }

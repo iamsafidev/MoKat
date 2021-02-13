@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import id.husni.mokat.core.data.source.MoviesRepository
 import id.husni.mokat.core.data.source.Resources
 import id.husni.mokat.core.data.source.local.entity.MoviesEntity
+import id.husni.mokat.core.domain.model.Movies
+import id.husni.mokat.core.domain.usecase.MoviesUseCase
 
-class MainViewModel(private val moviesRepository: MoviesRepository): ViewModel() {
-    fun getAllMovies(): LiveData<Resources<List<MoviesEntity>>> = moviesRepository.getAllMovies()
+class MainViewModel( moviesUseCase: MoviesUseCase): ViewModel() {
+    val getAllMovies = moviesUseCase.getAllMovies()
 }

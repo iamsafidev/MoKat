@@ -28,7 +28,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         val factory = ViewModelFactory.getInstance(this)
         favoriteViewModel = ViewModelProvider(this,factory)[FavoriteViewModel::class.java]
-        favoriteViewModel.getAllFavorite().observe(this,{
+        favoriteViewModel.getAllFavorite.observe(this,{
             rvAdapter.setMovies(it)
             binding.tvEmpty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
 
