@@ -3,13 +3,14 @@ package id.husni.mokat.core.ui
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import id.husni.mokat.R
 import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.network.ApiConfig
-import id.husni.mokat.core.data.source.remote.response.MoviesItem
+import id.husni.mokat.core.utils.MovieDiffCallBack
 import id.husni.mokat.databinding.ItemListBinding
 import id.husni.mokat.detail.DetailActivity
 
@@ -18,10 +19,11 @@ class MoviesAdapter: RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     private val listMovies = ArrayList<MoviesEntity>()
 
     fun setMovies(items: List<MoviesEntity>?){
-        if (items.isNullOrEmpty()) return
+        val diffCallBack = MovieDiffCallBack(listMovies,items!!)
+        val diffResult = DiffUtil.calculateDiff(diffCallBack)
         listMovies.clear()
         listMovies.addAll(items)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemListBinding.inflate(LayoutInflater.from(parent.context),parent,false)

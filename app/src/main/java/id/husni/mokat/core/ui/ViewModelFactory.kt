@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import id.husni.mokat.core.data.source.MoviesRepository
 import id.husni.mokat.core.di.Injection
+import id.husni.mokat.detail.DetailMoviesViewModel
+import id.husni.mokat.favorite.FavoriteViewModel
 import id.husni.mokat.main.MainViewModel
 
 class ViewModelFactory private constructor(private val moviesRepository: MoviesRepository): ViewModelProvider.NewInstanceFactory(){
@@ -23,6 +25,12 @@ class ViewModelFactory private constructor(private val moviesRepository: MoviesR
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) ->{
                 MainViewModel(moviesRepository) as T
+            }
+            modelClass.isAssignableFrom(DetailMoviesViewModel::class.java)->{
+                DetailMoviesViewModel(moviesRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) ->{
+                FavoriteViewModel(moviesRepository) as T
             }
             else -> throw Throwable(modelClass.name)
         }

@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import id.husni.mokat.FavoriteActivity
+import id.husni.mokat.favorite.FavoriteActivity
 import id.husni.mokat.R
 import id.husni.mokat.core.data.source.Resources
 import id.husni.mokat.core.ui.MoviesAdapter
@@ -19,7 +19,7 @@ import id.husni.mokat.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     is Resources.Error<*> ->{
                         showProgressBar(false)
-                        Toast.makeText(this,"Something Wrong",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,getString(R.string.wrong),Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.favorites){
-            startActivity(Intent(this,FavoriteActivity::class.java))
+            startActivity(Intent(this, FavoriteActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ApiConfig {
-    const val BASE_URL ="https://api.themoviedb.org/"
+    private const val BASE_URL ="https://api.themoviedb.org/"
     const val POSTER_URL ="https://image.tmdb.org/t/p/w500/"
     private fun provideClient(): OkHttpClient{
         return OkHttpClient.Builder()

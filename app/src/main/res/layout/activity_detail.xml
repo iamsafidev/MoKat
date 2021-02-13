@@ -133,5 +133,15 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             tools:text="Overview Lorem Ipsum Dolor Sit Amet" />
 
+        <ImageView
+            android:id="@+id/btnFavorite"
+            android:contentDescription="@string/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@+id/tvRelease"
+            app:layout_constraintTop_toBottomOf="@+id/tvRelease"
+            app:srcCompat="@drawable/favorite_selector" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

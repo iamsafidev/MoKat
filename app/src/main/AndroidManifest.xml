@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MoKat">
-        <activity android:name=".FavoriteActivity"></activity>
+        <activity android:name=".favorite.FavoriteActivity" />
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".main.MainActivity">
             <intent-filter>
