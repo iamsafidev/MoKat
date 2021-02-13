@@ -11,6 +11,8 @@ import id.husni.mokat.core.domain.model.Movies
 import id.husni.mokat.core.domain.repository.IMoviesRepository
 import id.husni.mokat.core.utils.AppExecutors
 import id.husni.mokat.core.utils.DataMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MoviesRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -26,32 +28,28 @@ class MoviesRepository private constructor(
             }
     }
 
-    override fun getAllMovies(): LiveData<Resources<List<Movies>>> =
-        object : NetworkBoundResource<List<Movies>, List<MoviesItem>>(appExecutors){
-            override fun loadFromDB(): LiveData<List<Movies>> {
-                return Transformations.map(localDataSource.getAllMovies()){
-                    DataMapper.mapEntitiesToDomain(it)
-                }
+    override fun getAllMovies(): Flow<Resources<List<Movies>>> =
+        object : NetworkBoundResource<List<Movies>, List<MoviesItem>>(){
+            override fun loadFromDB(): Flow<List<Movies>> {
+                return localDataSource.getAllMovies().map { DataMapper.mapEntitiesToDomain(it) }
             }
 
             override fun shouldFetch(data: List<Movies>?): Boolean =
                 data == null || data.isEmpty()
 
 
-            override fun createCall(): LiveData<ApiResponse<List<MoviesItem>>> {
-                return remoteDataSource.getAllMovies()
-            }
+            override suspend fun createCall(): Flow<ApiResponse<List<MoviesItem>>> =
+                remoteDataSource.getAllMovies()
 
-            override fun saveCallResult(data: List<MoviesItem>) {
+
+            override suspend fun saveCallResult(data: List<MoviesItem>) {
                 val movieList = DataMapper.mapResponseToEntities(data)
                 localDataSource.insertMovies(movieList)
             }
-        }.asLiveData()
+        }.asFlow()
 
-    override fun getFavouriteMovies(): LiveData<List<Movies>> {
-        return Transformations.map(localDataSource.getFavorite()){
-            DataMapper.mapEntitiesToDomain(it)
-        }
+    override fun getFavouriteMovies(): Flow<List<Movies>> {
+        return localDataSource.getFavorite().map { DataMapper.mapEntitiesToDomain(it) }
     }
 
     override fun setFavouriteMovies(movies: Movies, newState: Boolean){

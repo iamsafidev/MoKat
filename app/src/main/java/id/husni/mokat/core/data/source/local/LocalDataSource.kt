@@ -3,6 +3,7 @@ package id.husni.mokat.core.data.source.local
 import androidx.lifecycle.LiveData
 import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.local.room.MoviesDao
+import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource private constructor(private val moviesDao: MoviesDao){
     companion object{
@@ -15,11 +16,11 @@ class LocalDataSource private constructor(private val moviesDao: MoviesDao){
             }
     }
 
-    fun getAllMovies() : LiveData<List<MoviesEntity>> = moviesDao.getAllMovies()
+    fun getAllMovies() : Flow<List<MoviesEntity>> = moviesDao.getAllMovies()
 
-    fun getFavorite(): LiveData<List<MoviesEntity>> = moviesDao.getFavorite()
+    fun getFavorite(): Flow<List<MoviesEntity>> = moviesDao.getFavorite()
 
-    fun insertMovies(movies: List<MoviesEntity>) = moviesDao.insertMovies(movies)
+    suspend fun insertMovies(movies: List<MoviesEntity>) = moviesDao.insertMovies(movies)
 
     fun setFavorite(moviesEntity: MoviesEntity, newState: Boolean){
         moviesEntity.isFavorite = newState

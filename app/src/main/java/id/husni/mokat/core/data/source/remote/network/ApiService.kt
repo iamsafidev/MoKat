@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("3/discover/movie")
-    fun getAllMovies(
+    suspend fun getAllMovies(
         @Query("api_key") api_key: String,
         @Query("language") language: String
-    ): Call<MovieResponse>
+    ): MovieResponse
 }

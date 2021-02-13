@@ -1,15 +1,13 @@
 package id.husni.mokat.core.data.source.remote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import id.husni.mokat.BuildConfig
 import id.husni.mokat.core.data.source.remote.network.ApiResponse
 import id.husni.mokat.core.data.source.remote.network.ApiService
-import id.husni.mokat.core.data.source.remote.response.MovieResponse
 import id.husni.mokat.core.data.source.remote.response.MoviesItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource private constructor(private val apiService: ApiService){
     companion object{
@@ -22,20 +20,20 @@ class RemoteDataSource private constructor(private val apiService: ApiService){
             }
     }
 
-    fun getAllMovies(): LiveData<ApiResponse<List<MoviesItem>>>{
-        val results = MutableLiveData<ApiResponse<List<MoviesItem>>>()
-
-        val client = apiService.getAllMovies(BuildConfig.TMDB_API,"en_US")
-        client.enqueue(object : Callback<MovieResponse>{
-            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                val dataArray = response.body()?.results
-                results.value = if (dataArray !=null) ApiResponse.Success(dataArray) else ApiResponse.Empty
+    suspend fun getAllMovies(): Flow<ApiResponse<List<MoviesItem>>>{
+        return flow {
+            try {
+                val client = apiService.getAllMovies(BuildConfig.TMDB_API,"en-US")
+                val dataArray = client.results
+                if (dataArray.isNotEmpty()){
+                    emit(ApiResponse.Success(dataArray))
+                }
+                else{
+                    emit(ApiResponse.Empty)
+                }
+            }catch (e: Exception){
+                emit(ApiResponse.Error(e.message.toString()))
             }
-
-            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                results.value = ApiResponse.Error(t.message.toString())
-            }
-        })
-        return results
+        }.flowOn(Dispatchers.IO)
     }
 }
