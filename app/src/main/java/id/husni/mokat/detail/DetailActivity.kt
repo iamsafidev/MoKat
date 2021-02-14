@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import id.husni.mokat.R
-import id.husni.mokat.core.data.source.remote.network.ApiConfig
 import id.husni.mokat.core.domain.model.Movies
+import id.husni.mokat.core.source.remote.network.ApiConfig
 import id.husni.mokat.databinding.ActivityDetailBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 

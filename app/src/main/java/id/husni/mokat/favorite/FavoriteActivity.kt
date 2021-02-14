@@ -1,5 +1,6 @@
 package id.husni.mokat.favorite
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import id.husni.mokat.R
 import id.husni.mokat.core.ui.MoviesAdapter
 import id.husni.mokat.databinding.ActivityFavoriteBinding
+import id.husni.mokat.detail.DetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : AppCompatActivity() {
@@ -23,7 +25,11 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val rvAdapter = MoviesAdapter()
-
+        rvAdapter.onItemClick = { detailData ->
+            val i = Intent(this, DetailActivity::class.java)
+            i.putExtra(DetailActivity.EXTRA_DATA,detailData)
+            startActivity(i)
+        }
         favoriteViewModel.getAllFavorite.observe(this,{
             rvAdapter.setMovies(it)
             binding.tvEmpty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE

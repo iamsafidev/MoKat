@@ -1,8 +1,6 @@
 package id.husni.mokat.detail
 
 import androidx.lifecycle.ViewModel
-import id.husni.mokat.core.data.source.MoviesRepository
-import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.domain.model.Movies
 import id.husni.mokat.core.domain.usecase.MoviesUseCase
 

@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import id.husni.mokat.favorite.FavoriteActivity
 import id.husni.mokat.R
-import id.husni.mokat.core.data.source.Resources
+import id.husni.mokat.core.source.Resources
 import id.husni.mokat.core.ui.MoviesAdapter
 import id.husni.mokat.databinding.ActivityMainBinding
+import id.husni.mokat.detail.DetailActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +28,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.mainToolbar)
 
         val rvAdapter = MoviesAdapter()
+        rvAdapter.onItemClick = { detailData ->
+            val i = Intent(this,DetailActivity::class.java)
+            i.putExtra(DetailActivity.EXTRA_DATA,detailData)
+            startActivity(i)
+        }
         with(binding.mainRv){
             layoutManager = GridLayoutManager(context,2)
             setHasFixedSize(true)
