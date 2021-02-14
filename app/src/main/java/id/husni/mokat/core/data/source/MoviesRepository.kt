@@ -1,9 +1,6 @@
 package id.husni.mokat.core.data.source
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import id.husni.mokat.core.data.source.local.LocalDataSource
-import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.RemoteDataSource
 import id.husni.mokat.core.data.source.remote.network.ApiResponse
 import id.husni.mokat.core.data.source.remote.response.MoviesItem
@@ -14,19 +11,10 @@ import id.husni.mokat.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class MoviesRepository private constructor(
+class MoviesRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors): IMoviesRepository{
-    companion object{
-        @Volatile
-        private var instance: MoviesRepository? = null
-
-        fun getInstance(remoteDataSource: RemoteDataSource,localDataSource: LocalDataSource, appExecutors: AppExecutors): MoviesRepository =
-            instance ?: synchronized(this){
-                instance ?: MoviesRepository(remoteDataSource,localDataSource,appExecutors)
-            }
-    }
 
     override fun getAllMovies(): Flow<Resources<List<Movies>>> =
         object : NetworkBoundResource<List<Movies>, List<MoviesItem>>(){

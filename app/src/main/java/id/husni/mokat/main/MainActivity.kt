@@ -13,13 +13,13 @@ import id.husni.mokat.favorite.FavoriteActivity
 import id.husni.mokat.R
 import id.husni.mokat.core.data.source.Resources
 import id.husni.mokat.core.ui.MoviesAdapter
-import id.husni.mokat.core.ui.ViewModelFactory
 import id.husni.mokat.databinding.ActivityMainBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+    private val mainViewModel: MainViewModel by viewModel()
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -32,8 +32,7 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             adapter = rvAdapter
         }
-        val factory = ViewModelFactory.getInstance(this)
-        mainViewModel = ViewModelProvider(this,factory)[MainViewModel::class.java]
+
         mainViewModel.getAllMovies.observe(this,{ movies->
             if (movies != null){
                 when(movies){

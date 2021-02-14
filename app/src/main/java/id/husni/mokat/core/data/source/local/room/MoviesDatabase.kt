@@ -10,16 +10,4 @@ import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 abstract class MoviesDatabase : RoomDatabase(){
     abstract fun moviesDao(): MoviesDao
 
-    companion object{
-        @Volatile
-        private var instance: MoviesDatabase? = null
-
-        fun getInstance(context: Context): MoviesDatabase =
-            instance ?: synchronized(this){
-                instance ?: Room
-                    .databaseBuilder(context.applicationContext,MoviesDatabase::class.java,"movies_database")
-                    .fallbackToDestructiveMigration()
-                    .build()
-            }
-    }
 }

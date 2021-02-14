@@ -1,7 +1,6 @@
 package id.husni.mokat.detail
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -9,19 +8,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import id.husni.mokat.R
-import id.husni.mokat.core.data.source.local.entity.MoviesEntity
 import id.husni.mokat.core.data.source.remote.network.ApiConfig
 import id.husni.mokat.core.domain.model.Movies
-import id.husni.mokat.core.ui.ViewModelFactory
 import id.husni.mokat.databinding.ActivityDetailBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
     companion object{
         const val EXTRA_DATA = "extra_data"
     }
+    private val detailMoviesViewModel: DetailMoviesViewModel by viewModel()
     private var _binding : ActivityDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var detailMoviesViewModel: DetailMoviesViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -30,8 +28,6 @@ class DetailActivity : AppCompatActivity() {
             title = getString(R.string.detail)
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val factory = ViewModelFactory.getInstance(this)
-        detailMoviesViewModel = ViewModelProvider(this,factory)[DetailMoviesViewModel::class.java]
         val extraData = intent.getParcelableExtra<Movies>(EXTRA_DATA)
         showDetail(extraData)
 

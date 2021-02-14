@@ -4,18 +4,16 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import id.husni.mokat.R
 import id.husni.mokat.core.ui.MoviesAdapter
-import id.husni.mokat.core.ui.ViewModelFactory
 import id.husni.mokat.databinding.ActivityFavoriteBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : AppCompatActivity() {
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
     private var _binding : ActivityFavoriteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var favoriteViewModel: FavoriteViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityFavoriteBinding.inflate(layoutInflater)
@@ -26,8 +24,6 @@ class FavoriteActivity : AppCompatActivity() {
 
         val rvAdapter = MoviesAdapter()
 
-        val factory = ViewModelFactory.getInstance(this)
-        favoriteViewModel = ViewModelProvider(this,factory)[FavoriteViewModel::class.java]
         favoriteViewModel.getAllFavorite.observe(this,{
             rvAdapter.setMovies(it)
             binding.tvEmpty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
