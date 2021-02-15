@@ -22,6 +22,7 @@ val databaseModule = module {
     single {
         Room.databaseBuilder(androidContext(),MoviesDatabase::class.java,"movies_database")
             .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
             .build()
     }
 }

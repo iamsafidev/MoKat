@@ -43,14 +43,17 @@ class MainActivity : AppCompatActivity() {
             if (movies != null){
                 when(movies){
                     is Resources.Loading<*> ->{
+                        binding.tvEmpty.visibility = View.GONE
                         showProgressBar(true)
                     }
                     is Resources.Success<*> ->{
                         showProgressBar(false)
+                        binding.tvEmpty.visibility = View.GONE
                         rvAdapter.setMovies(movies.data)
                     }
                     is Resources.Error<*> ->{
                         showProgressBar(false)
+                        binding.tvEmpty.visibility = View.VISIBLE
                         Toast.makeText(this,getString(R.string.wrong),Toast.LENGTH_SHORT).show()
                     }
                 }
