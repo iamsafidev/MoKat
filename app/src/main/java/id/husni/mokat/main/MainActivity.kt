@@ -1,15 +1,14 @@
 package id.husni.mokat.main
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import id.husni.mokat.favorite.FavoriteActivity
 import id.husni.mokat.R
 import id.husni.mokat.core.source.Resources
 import id.husni.mokat.core.ui.MoviesAdapter
@@ -68,7 +67,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.favorites){
-            startActivity(Intent(this, FavoriteActivity::class.java))
+            val uri = Uri.parse("mokat://favorite")
+            startActivity(Intent(Intent.ACTION_VIEW,uri))
         }
         return super.onOptionsItemSelected(item)
     }
