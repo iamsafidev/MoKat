@@ -1,6 +1,8 @@
 package id.husni.mokat.core.di
 
 import androidx.room.Room
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import id.husni.mokat.core.domain.repository.IMoviesRepository
 import id.husni.mokat.core.source.MoviesRepository
 import id.husni.mokat.core.source.local.LocalDataSource
@@ -42,7 +44,14 @@ val networkModule = module {
             .add(hostname,"sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=")
             .build()
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(
+                ChuckerInterceptor.Builder(get())
+                    .collector(ChuckerCollector(get()))
+                    .maxContentLength(250000L)
+                    .redactHeaders(emptySet())
+                    .alwaysReadResponseBody(false)
+                    .build()
+            )
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .certificatePinner(certificatePinner)
