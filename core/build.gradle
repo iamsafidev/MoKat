@@ -25,13 +25,12 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
         }
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
         }
+
     }
     buildFeatures{
         viewBinding true
@@ -69,4 +68,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
     implementation "androidx.room:room-ktx:2.2.6"
     api 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
+
+    //SQL Cipher
+    implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
+    implementation 'androidx.sqlite:sqlite-ktx:2.1.0'
 }

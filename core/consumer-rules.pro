@@ -76,6 +76,7 @@
  # Uncomment for DexGuard only
  #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
+
   ##---------------Begin: proguard configuration for SQLCipher  ----------
   -keep,includedescriptorclasses class net.sqlcipher.** { *; }
   -keep,includedescriptorclasses interface net.sqlcipher.** { *; }

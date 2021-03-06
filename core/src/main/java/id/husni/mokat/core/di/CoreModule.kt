@@ -1,14 +1,16 @@
 package id.husni.mokat.core.di
 
 import androidx.room.Room
+import id.husni.mokat.core.domain.repository.IMoviesRepository
 import id.husni.mokat.core.source.MoviesRepository
 import id.husni.mokat.core.source.local.LocalDataSource
 import id.husni.mokat.core.source.local.room.MoviesDatabase
 import id.husni.mokat.core.source.remote.RemoteDataSource
 import id.husni.mokat.core.source.remote.network.ApiConfig
 import id.husni.mokat.core.source.remote.network.ApiService
-import id.husni.mokat.core.domain.repository.IMoviesRepository
 import id.husni.mokat.core.utils.AppExecutors
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -20,9 +22,12 @@ import java.util.concurrent.TimeUnit
 val databaseModule = module {
     factory { get<MoviesDatabase>().moviesDao() }
     single {
-        Room.databaseBuilder(androidContext(),MoviesDatabase::class.java,"movies_database")
+        val passPhrase : ByteArray = SQLiteDatabase.getBytes("husnikey".toCharArray())
+        val supportFactory = SupportFactory(passPhrase)
+        Room.databaseBuilder(androidContext(),MoviesDatabase::class.java,"movies_database.db")
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries()
+            .openHelperFactory(supportFactory)
             .build()
     }
 }
