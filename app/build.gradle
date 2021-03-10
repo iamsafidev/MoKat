@@ -66,7 +66,10 @@ dependencies {
     //Leak Canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 
-
+    //mockito
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:3.8.6'
+    testImplementation 'org.mockito:mockito-core:3.8.6'
+    testImplementation 'org.mockito:mockito-inline:3.8.6'
 
 
 }
