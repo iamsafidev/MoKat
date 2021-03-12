@@ -30,7 +30,8 @@ object DataMapper {
                 voteAverage = it.voteAverage,
                 overview = it.overview,
                 backdropPath = it.backdropPath,
-                posterPath = it.posterPath
+                posterPath = it.posterPath,
+                isFavorite = it.isFavorite
             )
         }
 

@@ -14,5 +14,4 @@ val useCaseModule = module {
 val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { DetailMoviesViewModel(get()) }
-    //viewModel { id.husni.mokat.favorite.FavoriteViewModel(get()) }
 }

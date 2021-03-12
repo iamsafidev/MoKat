@@ -12,5 +12,5 @@ data class Movies(
     val overview: String,
     val backdropPath: String,
     val posterPath: String,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean
 ): Parcelable

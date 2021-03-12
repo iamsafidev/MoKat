@@ -2,6 +2,7 @@ package id.husni.mokat.detail
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -17,42 +18,44 @@ class DetailActivity : AppCompatActivity() {
         const val EXTRA_DATA = "extra_data"
     }
     private val detailMoviesViewModel: DetailMoviesViewModel by viewModel()
-    private var _binding : ActivityDetailBinding? = null
-    private val binding get() = _binding!!
+    lateinit var binding : ActivityDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityDetailBinding.inflate(layoutInflater)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.detailToolbar).apply {
             title = getString(R.string.detail)
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val extraData = intent.getParcelableExtra<Movies>(EXTRA_DATA)
-        showDetail(extraData)
+        if (extraData != null) {
+            showDetail(extraData)
+        }
 
     }
 
-    private fun showDetail(extraData: Movies?) {
+    private fun showDetail(extraData: Movies) {
         with(binding){
-            tvTitle.text = extraData?.title
-            tvRating.text = extraData?.voteAverage.toString()
-            tvRelease.text = extraData?.releaseDate
-            tvOverview.text = extraData?.overview
+            tvTitle.text = extraData.title
+            tvRating.text = extraData.voteAverage.toString()
+            tvRelease.text = extraData.releaseDate
+            tvOverview.text = extraData.overview
         }
         Glide.with(this)
-            .load(ApiConfig.POSTER_URL + extraData?.posterPath)
+            .load(ApiConfig.POSTER_URL + extraData.posterPath)
             .apply(RequestOptions.placeholderOf(R.drawable.ic_broken).error(R.drawable.ic_broken))
             .into(binding.imgDetail)
         Glide.with(this)
-            .load(ApiConfig.POSTER_URL + extraData?.backdropPath)
+            .load(ApiConfig.POSTER_URL + extraData.backdropPath)
             .apply(RequestOptions.placeholderOf(R.drawable.ic_broken).error(R.drawable.ic_broken))
             .into(binding.imgBackDetail)
 
-        var statusFavorite = extraData?.isFavorite
+        var statusFavorite = extraData.isFavorite
         setStatusFav(statusFavorite)
         binding.btnFavorite.setOnClickListener {
-            statusFavorite = !statusFavorite!!
-            detailMoviesViewModel.setFavourite(extraData!!, statusFavorite!!)
+            statusFavorite = !statusFavorite
+            detailMoviesViewModel.setFavourite(extraData, statusFavorite)
             setStatusFav(statusFavorite)
         }
 
@@ -60,12 +63,14 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    private fun setStatusFav(statusFavorite: Boolean?) {
-        if (statusFavorite == true){
+    private fun setStatusFav(statusFavorite: Boolean) {
+        if (statusFavorite){
             binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_favorite))
+
         }
         else{
             binding.btnFavorite.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_unfavorite))
+
         }
     }
 
